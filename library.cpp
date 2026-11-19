@@ -1,91 +1,25 @@
-#include <iostream>
+#ifndef LIBRARY_H
+#define LIBRARY_H
+
 #include <vector>
-#include <string>
-
-using namespace std;
-
-class Book {
-public:
-    int id;
-    string title;
-    string author;
-    int quantity;
-
-    Book(int id, string title, string author, int quantity) {
-        this->id = id;
-        this->title = title;
-        this->author = author;
-        this->quantity = quantity;
-    }
-};
+#include "Book.h"
 
 class Library {
 private:
-    vector<Book> books;
+    std::vector<Book> books;
 
 public:
-    void addBook(Book book) {
-        books.push_back(book);
-    }
+    void addBook(Book book);
 
-    void displayBooks() {
-        for (auto book : books) {
-            cout << book.id << " "
-                 << book.title << " "
-                 << book.author << " "
-                 << book.quantity << endl;
-        }
-    }
+    void displayBooks();
 
-    double calculateFine(int daysLate) {
-        return daysLate * 2;     // BUG
-    }
+    double calculateFine(int daysLate);
 
-    void issueBook(int id) {
-        for (auto &book : books) {
-            if (book.id == id) {
-                book.quantity--; // BUG
-                cout << "Book issued" << endl;
-                return;
-            }
-        }
-        cout << "Book not found" << endl;
-    }
+    void issueBook(int id);
 
-    Book* searchBook(string title) {
-        for (auto &book : books) {
-            if (book.title == title) { // BUG
-                return &book;
-            }
-        }
-        return nullptr;
-    }
+    Book* searchBook(std::string title);
 
-    double averageBooksPerCategory(int categories) {
-        return books.size() / categories; // BUG
-    }
+    double averageBooksPerCategory(int categories);
 };
 
-int main() {
-    Library lib;
-
-    lib.addBook(Book(1, "C++ Basics", "John", 5));
-    lib.addBook(Book(1, "Python Basics", "Mike", 10)); // BUG
-
-    lib.displayBooks();
-
-    cout << "Fine: "
-         << lib.calculateFine(3)
-         << endl;
-
-    lib.issueBook(1);
-
-    Book* found = lib.searchBook("c++ basics");
-
-    if (found)
-        cout << found->title << endl;
-
-    cout << lib.averageBooksPerCategory(0);
-
-    return 0;
-}
+#endif
