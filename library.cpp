@@ -1,25 +1,66 @@
-#ifndef LIBRARY_H
-#define LIBRARY_H
+#include <iostream>
+#include "Library.h"
 
-#include <vector>
-#include "Book.h"
+using namespace std;
 
-class Library {
-private:
-    std::vector<Book> books;
+Book::Book(int id, string title, string author, int quantity)
+{
+    this->id = id;
+    this->title = title;
+    this->author = author;
+    this->quantity = quantity;
+}
 
-public:
-    void addBook(Book book);
+void Library::addBook(Book book)
+{
+    books.push_back(book);
+}
 
-    void displayBooks();
+void Library::displayBooks()
+{
+    for (auto book : books)
+    {
+        cout << book.id << " "
+             << book.title << " "
+             << book.author << " "
+             << book.quantity << endl;
+    }
+}
 
-    double calculateFine(int daysLate);
+double Library::calculateFine(int daysLate)
+{
+    return daysLate * 2; // BUG
+}
 
-    void issueBook(int id);
+void Library::issueBook(int id)
+{
+    for (auto &book : books)
+    {
+        if (book.id == id)
+        {
+            book.quantity--; // BUG
+            cout << "Book issued" << endl;
+            return;
+        }
+    }
 
-    Book* searchBook(std::string title);
+    cout << "Book not found" << endl;
+}
 
-    double averageBooksPerCategory(int categories);
-};
+Book* Library::searchBook(string title)
+{
+    for (auto &book : books)
+    {
+        if (book.title == title) // BUG
+        {
+            return &book;
+        }
+    }
 
-#endif
+    return nullptr;
+}
+
+double Library::averageBooksPerCategory(int categories)
+{
+    return books.size() / categories; // BUG
+}
